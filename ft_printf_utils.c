@@ -6,7 +6,7 @@
 /*   By: atakeddi <atakeddi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:35 by atakeddi          #+#    #+#             */
-/*   Updated: 2021/12/16 16:05:41 by atakeddi         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:18:24 by atakeddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 char	ft_putchar(char c)
 {
-	int i;
-
-	i = 0;
 	write(1, 'c', 1);
-	i++;
-	return(i);
+	return(1);
 }
 char	ft_putstr(char *s)
 {
