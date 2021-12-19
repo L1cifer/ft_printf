@@ -6,7 +6,7 @@
 /*   By: atakeddi <atakeddi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:35 by atakeddi          #+#    #+#             */
-/*   Updated: 2021/12/19 16:26:31 by atakeddi         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:18:32 by atakeddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	ft_putchar(char c)
 {
 	write(1, &c, 1);
-	return(1);
+	return (1);
 }
 
-long long	ft_nblen(long long	x)
+long long	ft_nblen(long long x)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (x)
@@ -30,6 +30,7 @@ long long	ft_nblen(long long	x)
 	}
 	return (i);
 }
+
 int	ft_putstr(char *s)
 {
 	int	i;
@@ -37,11 +38,12 @@ int	ft_putstr(char *s)
 	i = 0;
 	while (s[i])
 	{
-		write (1,&s[i],1);
+		write (1, &s[i], 1);
 		i++;
 	}
-	return(i);
+	return (i);
 }
+
 int	ft_putnbr(int n)
 {
 	long	nb;
@@ -61,6 +63,7 @@ int	ft_putnbr(int n)
 	}
 	return (ft_nblen(nb));
 }
+
 int	ft_uputnbr(unsigned int nb)
 {
 	if (nb < 10)
