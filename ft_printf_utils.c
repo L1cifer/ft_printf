@@ -6,29 +6,43 @@
 /*   By: atakeddi <atakeddi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:35 by atakeddi          #+#    #+#             */
-/*   Updated: 2021/12/17 17:18:24 by atakeddi         ###   ########.fr       */
+/*   Updated: 2021/12/19 16:26:31 by atakeddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	ft_putchar(char c)
+int	ft_putchar(char c)
 {
-	write(1, 'c', 1);
+	write(1, &c, 1);
 	return(1);
 }
-char	ft_putstr(char *s)
+
+long long	ft_nblen(long long	x)
+{
+	int i;
+
+	i = 0;
+	while (x)
+	{
+		x = x / 10;
+		i++;
+	}
+	return (i);
+}
+int	ft_putstr(char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		putchar(&s[i++]);
+		write (1,&s[i],1);
+		i++;
 	}
 	return(i);
 }
-void	ft_putnbr(int n)
+int	ft_putnbr(int n)
 {
 	long	nb;
 
@@ -45,12 +59,18 @@ void	ft_putnbr(int n)
 		ft_putnbr(nb / 10);
 		ft_putnbr(nb % 10);
 	}
+	return (ft_nblen(nb));
 }
-void	ft_unputnbr(int n)
+int	ft_uputnbr(unsigned int nb)
 {
-	unsigned int	nb;
-
-	nb = n;
-	ft_unputnbr(nb / 10);
-	ft_unputnbr(nb % 10);
+	if (nb < 10)
+	{
+		ft_putchar((char)(nb + '0'));
+	}
+	else
+	{
+		ft_putnbr(nb / 10);
+		ft_putchar((char)(nb % 10 + '0'));
+	}
+	return (ft_nblen(nb));
 }
