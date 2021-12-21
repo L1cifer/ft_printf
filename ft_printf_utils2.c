@@ -6,21 +6,24 @@
 /*   By: atakeddi <atakeddi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 14:46:07 by atakeddi          #+#    #+#             */
-/*   Updated: 2021/12/19 17:03:32 by atakeddi         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:18:20 by atakeddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	lowhexa(int n)
+int	lowhexa(unsigned int n)
 {
-	char	*base;
 	int		i;
+	char	*base;
 
-	base = "0123456789abcdef";
 	i = 0;
+	base = "0123456789abcdef";
 	if (n < 16)
-		i += ft_putchar(base[n]);
+	{
+		ft_putchar(base[n]);
+		i++;
+	}
 	else
 	{
 		i += lowhexa(n / 16);
@@ -29,7 +32,27 @@ int	lowhexa(int n)
 	return (i);
 }
 
-int	upperhexa(int n)
+int	lowhexa1(unsigned long long n)
+{
+	int		i;
+	char	*base;
+
+	i = 0;
+	base = "0123456789abcdef";
+	if (n < 16)
+	{
+		ft_putchar(base[n]);
+		i++;
+	}
+	else
+	{
+		i += lowhexa1(n / 16);
+		i += lowhexa1(n % 16);
+	}
+	return (i);
+}
+
+int	upperhexa(unsigned int n)
 {
 	char	*base;
 	int		i;

@@ -78,15 +78,15 @@ first of all we will define ft_printf.h on our file.h and define some functions 
 # include <stdarg.h>
 # include <unistd.h>
 
-int			ft_printf(const char* , ...);
+int			ft_printf(const char *c, ...);
 int			ft_putchar(char c);
-int			ft_putnbr(int n);
+int			ft_putnbr(long n);
 int			ft_putstr(char *s);
-int			ft_putnbr(int n);
-int			check1(char c, va_list ptr);
-int			upperhexa(int n);
-int			lowhexa(int n);
-long long	ft_nblen(long long  n);
+int			upperhexa(unsigned int n);
+int			lowhexa(unsigned int n);
+int			lowhexa1(unsigned long long n);
+long		ft_nblen(long long n);
+int			ft_uputnbr(unsigned int nb);
 
 #endif
 ```
@@ -146,23 +146,31 @@ so first we’ll declare a count that he will store how many character we wrote 
 so for this form our code will be like that : 
 
 ```c
-#include "printf.h"
-
-int check1(char c, va_list ptr)
+static int	check1(char c, va_list ptr)
 {
 	int	count;
 
 	count = 0;
 	if (c == 'c')
-		count += ft_putchar((char)va_arg(ptr,int));
-	if (c == 's')
-		count += ft_putstr(va_arg(ptr,char*));
-	if (c == 'u')
-		count += ft_unputnbr(va_arg(ptr,int));
-	if (c == 'd' || c == 'i')
-		count += ft_putnbr(va_arg(ptr,int));
-	if (c == '%')
-		count += ft_putchar('%');
+		count = ft_putchar((char)va_arg(ptr, int));
+	else if (c == 's')
+		count = ft_putstr(va_arg(ptr, char *));
+	else if (c == 'u')
+		count = ft_uputnbr(va_arg(ptr, unsigned int));
+	else if (c == 'd' || c == 'i')
+		count = ft_putnbr(va_arg(ptr, int));
+	else if (c == '%')
+		count = ft_putchar('%');
+	else if (c == 'x')
+		count = lowhexa(va_arg(ptr, unsigned int));
+	else if (c == 'X')
+		count = upperhexa(va_arg(ptr, unsigned int));
+	else if (c == 'p')
+	{
+		count += ft_putstr("0x");
+		count += lowhexa1(va_arg(ptr, unsigned long long));
+	}
+	return (count);
 }
 ```
 
@@ -196,7 +204,7 @@ so first we’ll create a variable that’s going to contain the base 16 **“01
 and after we’re going to check if the number given is less than 16 in this case he’s going to be our index to put it he’s goin to be like (**putchar(base[number given])**); else we’ll divise he by 16 and traverse the remainders from bottom to top to get the require number in base 16 , we’re going to do the same thing with **X** the only thing that we will change is the base it will be **“0123456789ABCDEF”** so our code will be like the following :
 
 ```c
-int	lowhexa(int n)
+int	lowhexa(unsigned int n)
 {
 	char	*base;
 	int		i;
@@ -213,7 +221,7 @@ int	lowhexa(int n)
 	return (i);
 }
 
-int	upperhexa(int n)
+int	upperhexa(unsigned int n)
 {
 	char	*base;
 	int		i;
@@ -231,4 +239,28 @@ int	upperhexa(int n)
 }
 ```
 
-so now let’s talk about the p how we’re going to print it ?
+so now let’s talk about the p how we’re going to print it ? that can be a little be tricky so if u did notice that every address start with 0x and some numbers .
+
+so after printing 0x we should print the rest and one more thing the rest he’s on hexadecimal so we should convert the number given and other thing the number given should be an unsigned long because firstly the address can’t be negative and the int can’t hold it so our code will be like the following : 
+
+```c
+int	lowhexa1(unsigned long long n)
+{
+	int		i;
+	char	*base;
+
+	i = 0;
+	base = "0123456789abcdef";
+	if (n < 16)
+	{
+		ft_putchar(base[n]);
+		i++;
+	}
+	else
+	{
+		i += lowhexa1(n / 16);
+		i += lowhexa1(n % 16);
+	}
+	return (i);
+}
+```

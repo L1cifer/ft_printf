@@ -6,7 +6,7 @@
 /*   By: atakeddi <atakeddi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:35 by atakeddi          #+#    #+#             */
-/*   Updated: 2021/12/19 17:18:32 by atakeddi         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:20:39 by atakeddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ int	ft_putchar(char c)
 	return (1);
 }
 
-long long	ft_nblen(long long x)
+long	ft_nblen(long long x)
 {
 	int	i;
 
 	i = 0;
+	if (x <= 0)
+		i++;
 	while (x)
 	{
 		x = x / 10;
@@ -36,6 +38,11 @@ int	ft_putstr(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	while (s[i])
 	{
 		write (1, &s[i], 1);
@@ -44,36 +51,36 @@ int	ft_putstr(char *s)
 	return (i);
 }
 
-int	ft_putnbr(int n)
+int	ft_putnbr(long n)
 {
-	long	nb;
+	int	i;
 
-	nb = n;
+	i = 0;
 	if (n < 0)
 	{
-		ft_putchar('-');
-		nb *= -1;
+		i = ft_putchar('-');
+		n *= -1;
 	}
-	if (nb < 10)
-		ft_putchar(nb + 48);
+	if (n < 10)
+		ft_putchar(n + 48);
 	else
 	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
 	}
-	return (ft_nblen(nb));
+	return (ft_nblen(n) + i);
 }
 
 int	ft_uputnbr(unsigned int nb)
 {
 	if (nb < 10)
 	{
-		ft_putchar((char)(nb + '0'));
+		ft_putchar(nb + '0');
 	}
 	else
 	{
 		ft_putnbr(nb / 10);
-		ft_putchar((char)(nb % 10 + '0'));
+		ft_putchar(nb % 10 + '0');
 	}
 	return (ft_nblen(nb));
 }
